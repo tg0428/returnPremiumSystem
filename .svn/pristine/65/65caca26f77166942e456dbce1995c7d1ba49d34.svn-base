@@ -1,0 +1,82 @@
+function hasPhoneOrEmail() {
+	
+	var name = encodeURI(encodeURI($("input[name=name]").val()));
+	var psw = encodeURI(encodeURI($("input[name=psw]").val()));
+	var code =  encodeURI(encodeURI($("input[name=code]").val()));
+	$.ajax({
+		type : 'post',
+		url : 'LoginhasPhoneOrEmail?name='+name+'&psw='+psw+"&code="+code,
+		dataType :'text',
+		success : function(data) {
+			console.info(data);
+				var j = eval("("+data+")");
+		    if(j[2]=="true"){
+				if(j[1]=="empty"){
+					$("#msg").text("");
+					$("#dialog").dialog({
+						autoOpen : true, 
+						modal : true, 
+						resizable : false,
+						width : 400, 
+						height : 210, 
+						hide:"slide",
+						title : "请填写电话号与邮箱", 
+						buttons : {
+							'保存' : function() {
+								test();
+								if(test()){
+									var phone = encodeURI(encodeURI($("input[name=phone]").val()));
+									var email = encodeURI(encodeURI($("input[name=email]").val()));
+									$.ajax({
+										type : 'post',
+										url : 'LoginsavePhoneAndEmail?phone='+phone+'&email='+email+'&psw='+psw,
+										success : function(data) {
+											$("#info").submit();
+										}
+									});
+								}
+							}
+						}
+					});
+				}else if(j[1]=="unEmpty"){
+					$("#info").submit();
+				}
+			}else if(j[0]=="noUser"){
+				$("#msg").text("用户信息错误");
+			}else if(j[2]=="false"){
+				$("#msg").text("验证码错误");
+			}
+				
+		}
+	});
+}
+function test(){
+	
+    var phone = $("input[name=phone]").val();
+    var email = $("input[name=email]").val();
+    //对电子邮件的验证
+    var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+    if(!myreg.test(email)&&(phone.length==11))
+    {
+       $("#msg2").text("邮箱格式有误");
+       $("#msg1").text("正确");
+       return false;
+    } 
+    if(myreg.test(email)&&(phone.length==11)){
+    	$("#msg2").text("正确");
+    	$("#msg1").text("正确");
+    	return true;
+    }
+    if(phone.length!=11&&myreg.test(email)){
+    	$("#msg1").text("电话格式有误");
+    	("#msg2").text("正确");
+    	console.info(phone);
+    	return false;
+    }
+    if(phone.length!=11&&!myreg.test(email)){
+    	$("#msg1").text("电话格式有误");
+    	$("#msg2").text("邮箱格式有误");
+    	console.info(phone);
+    	return false;
+    }
+}

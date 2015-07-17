@@ -1,0 +1,62 @@
+<%@page import="java.net.URLEncoder"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<% 
+	String ks1 = URLEncoder.encode(URLEncoder.encode("外销员从业资格考试"));
+	String ks2 = URLEncoder.encode(URLEncoder.encode("国际商务师执业资格考试"));
+	String ks3 = URLEncoder.encode(URLEncoder.encode("企业法律顾问执业资格考试"));
+	String ks4 = URLEncoder.encode(URLEncoder.encode("全国房地产经纪人考试"));
+	String ks5 = URLEncoder.encode(URLEncoder.encode("注册资产评估师执业资格考试"));
+	String path = request.getContextPath();
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="css/main.css" type="text/css"  charset="UTF-8" />
+<title>退费系统</title>
+<style type="text/css">
+a{
+	text-decoration: none;
+}
+span{
+	color: red;
+}
+</style>
+</head>
+<body>
+	<div class="content">
+    	<div class="head" style="background-image: url('<%=basePath %>images/blue8.jpg');"><span style="font-size:30px">国家政策调整的资格考试吉林省考生确认参加考试系统</span></div>
+        <div class="main" style="height:500px;border:1px solid black;margin-top:20px">
+	        <div class="bot" style="margin-left:15px;padding-left:100px">
+	        		<span style="margin-right:62px">外销员从业资格考试</span>
+					<a href="ExportExportCheckOnPersonalExcel?KSLB=<%=ks1%>"><input style="font-size:15px;color: black;border-radius:8px;margin-top:5px"  type="button" value="下载参加考试考生名单"/></a>
+					<a href="ExportExportQiveUpPersonalExcel?KSLB=<%=ks1%>"><input style="font-size:15px;color: black;border-radius:8px;margin-top:5px"  type="button" value="下载放弃考试考生名单"/></a>
+					<a href="ExportExportNoOperationPersonalExcel?KSLB=<%=ks1%>"><input style="font-size:15px;color: black;border-radius:8px;margin-top:5px"  type="button" value="下载未操作考生名单"/></a><br/>
+					
+					<span style="margin-right:30px">国际商务师执业资格考试</span>
+					<a href="ExportExportCheckOnPersonalExcel?KSLB=<%=ks2%>"><input style="font-size:15px;color: black;border-radius:8px;margin-top:5px"  type="button" value="下载参加考试考生名单"/></a>
+					<a href="ExportExportQiveUpPersonalExcel?KSLB=<%=ks2%>"><input style="font-size:15px;color: black;border-radius:8px;margin-top:5px"  type="button" value="下载放弃考试考生名单"/></a>
+					<a href="ExportExportNoOperationPersonalExcel?KSLB=<%=ks2%>"><input style="font-size:15px;color: black;border-radius:8px;margin-top:5px"  type="button" value="下载未操作考生名单"/></a><br/>
+					
+					<span style="margin-right:13px">企业法律顾问执业资格考试</span>
+					<a href="ExportExportCheckOnPersonalExcel?KSLB=<%=ks3%>"><input style="font-size:15px;color: black;border-radius:8px;margin-top:5px"  type="button" value="下载参加考试考生名单"/></a>
+					<a href="ExportExportQiveUpPersonalExcel?KSLB=<%=ks3%>"><input style="font-size:15px;color: black;border-radius:8px;margin-top:5px"  type="button" value="下载放弃考试考生名单"/></a>
+					<a href="ExportExportNoOperationPersonalExcel?KSLB=<%=ks3%>"><input style="font-size:15px;color: black;border-radius:8px;margin-top:5px"  type="button" value="下载未操作考生名单"/></a><br/>
+					
+					<span style="margin-right:45px">全国房地产经纪人考试</span>
+					<a href="ExportExportCheckOnPersonalExcel?KSLB=<%=ks4%>"><input style="font-size:15px;color: black;border-radius:8px;margin-top:5px"  type="button" value="下载参加考试考生名单"/></a>
+					<a href="ExportExportQiveUpPersonalExcel?KSLB=<%=ks4%>"><input style="font-size:15px;color: black;border-radius:8px;margin-top:5px"  type="button" value="下载放弃考试考生名单"/></a>
+					<a href="ExportExportNoOperationPersonalExcel?KSLB=<%=ks4%>"><input style="font-size:15px;color: black;border-radius:8px;margin-top:5px"  type="button" value="下载未操作考生名单"/></a><br/>
+					
+					<span>注册资产评估师执业资格考试</span>
+					<a href="ExportExportCheckOnPersonalExcel?KSLB=<%=ks5%>"><input style="font-size:15px;color: black;border-radius:8px;margin-top:5px"  type="button" value="下载参加考试考生名单"/></a>
+					<a href="ExportExportQiveUpPersonalExcel?KSLB=<%=ks5%>"><input style="font-size:15px;color: black;border-radius:8px;margin-top:5px"  type="button" value="下载放弃考试考生名单"/></a>
+					<a href="ExportExportNoOperationPersonalExcel?KSLB=<%=ks5%>"><input style="font-size:15px;color: black;border-radius:8px;margin-top:5px"  type="button" value="下载未操作考生名单"/></a><br/>
+			</div>
+		</div>
+		<div class="footer"><div style="padding-top:60px;text-align: center;font-size:15px">联系电话：89995708  85611108</div></div>
+	</div>
+</body>
+</html>

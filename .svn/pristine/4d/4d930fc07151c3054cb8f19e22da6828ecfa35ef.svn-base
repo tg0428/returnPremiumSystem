@@ -1,0 +1,107 @@
+function checkOnAll(){
+	
+	var ZJHM = encodeURI(encodeURI($(".ZJHM").text().substr(5)));
+	 $("a").each(function(){
+		
+		var id = $(this).attr("id");
+		var KM = $("a[id="+id+"]").html();
+		var inputall = $("input[id=all]");
+		var input = $("input[id="+id+"]");
+		$.ajax({
+			
+			type:'post',
+			cache : false,
+			async :false,
+			url:'LogincheckExam?id='+id+'&ZJHM='+ZJHM,
+			contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+			success: function(result){
+				input.remove();
+				$("a[id="+id+"]").append("(已确认)");
+				inputall.remove();
+			}
+		});
+	});
+	 $("#msg").text("科目全部 确认考试成功");
+}
+
+function qiveUpAll(){
+	
+	var ZJHM = encodeURI(encodeURI($(".ZJHM").text().substr(5)));
+	 $("a").each(function(){
+		
+		var id = $(this).attr("id");
+		var KM = $("a[id="+id+"]").html();
+		var inputall = $("input[id=all]");
+		var input = $("input[id="+id+"]");
+		
+		$.ajax({
+			
+			type:'post',
+			cache : false,
+			async :false,
+			url:'LoginqiveupExam?id='+id+'&ZJHM='+ZJHM,
+			contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+			success: function(result){
+				
+				input.remove();
+				$("a[id="+id+"]").append("(已放弃)");
+				inputall.remove();
+			}
+		});
+	});
+	 $("#msg").text("科目全部 放弃考试成功");
+	 
+}
+
+function qiveupAll_confirm() 
+{
+	var ZJHM = encodeURI(encodeURI($(".ZJHM").text().substr(5)));
+	var GZDW = encodeURI(encodeURI($(".GZDW").text().substr(5)));
+	var KSXM = encodeURI(encodeURI($(".KSXM").text().substr(10)));
+	var KSJB = encodeURI(encodeURI($(".KSJB").text().substr(5)));
+	var KSLB = encodeURI(encodeURI($(".KSLB").text().substr(5)));
+	var event=arguments.callee.caller.arguments[0];
+	
+    event.returnValue = confirm("放弃是不可恢复的，你确认要放弃考试吗？");
+    
+    if(event.returnValue == true){
+    	
+    	qiveUpAll();
+    	
+    	$.ajax({
+    		
+    		type:'post',
+			cache : false,
+			async :false,
+			dateType: 'json',
+			url :'LogingetReturnJE?KSXM='+KSXM+'&ZJHM='+ZJHM,
+			success:function(result){
+				
+				var j = eval("("+result+")");
+				var JE = j[1]+j[2]+j[3]+j[4]+j[5];
+				alert("退费总金额为"+j[0]+"元, 其中科目费用为"+JE+", 报名费为13元");
+			}
+    	});
+    	
+    	location.href="jsp/return.jsp?KSXM="+KSXM+"&GZDW="+GZDW+"&ZJHM="+ZJHM+"&KSLB="+KSLB+"&KSJB="+KSJB;
+    	
+    }
+}
+
+function checkOnAll_confirm() 
+{
+	var event=arguments.callee.caller.arguments[0];
+	
+    event.returnValue = confirm("确认是不可恢复的，你确认要确认考试吗？");
+    
+    if(event.returnValue == true){
+    	
+    	checkOnAll();
+    	
+    	alert("确认成功");
+    	
+    	location.href="jsp/success.jsp";
+    	
+    }
+}
+

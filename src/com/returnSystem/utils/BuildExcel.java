@@ -1,0 +1,111 @@
+package com.returnSystem.utils;
+
+import java.lang.reflect.Method;
+import java.util.List;
+
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
+import com.returnSystem.model.USER;
+
+public class BuildExcel {
+	
+	private HSSFWorkbook wb = new HSSFWorkbook();  
+	  
+	private HSSFSheet sheet = wb.createSheet();  
+	    
+	ExportExcel ee = new ExportExcel(wb, sheet);
+	
+	public HSSFWorkbook Build(String headString,List<USER>list){
+		
+		String[] params = new String[] { "姓名", "身份证号", "工作单位", "考试类别", "考试项目","报名地市代码","报名地市","考区代码","考区名称", "科目1", "科目2", "科目3", "科目4", "科目5"
+				, "科目1费用", "科目2费用", "科目3费用", "科目4费用", "科目5费用","报名费","退费金额","电话","邮箱","银行卡号","开户行","首次修改时间"};  
+		
+		ee.createNormalHead(headString,(short)params.length);
+		
+		ee.createColumHeader(params);
+		
+		HSSFCellStyle cellstyle = wb.createCellStyle();
+		for(int i=0; i<list.size(); i++){
+			
+			int index = 0;
+			HSSFRow row = sheet.createRow(i+2);
+			
+			ee.createCell(wb, row, 0, list.get(i).getKSXM(),cellstyle);
+			ee.createCell(wb, row, ++index, list.get(i).getZJHM(),cellstyle);
+			ee.createCell(wb, row, ++index, list.get(i).getGZDW(),cellstyle);
+			ee.createCell(wb, row, ++index, list.get(i).getKSLB(),cellstyle);
+			ee.createCell(wb, row, ++index, list.get(i).getBKZYMC(),cellstyle);
+			ee.createCell(wb, row, ++index, list.get(i).getBMDS(),cellstyle);
+			ee.createCell(wb, row, ++index, list.get(i).getBMDSMC(),cellstyle);
+			ee.createCell(wb, row, ++index, list.get(i).getKQ(),cellstyle);
+			ee.createCell(wb, row, ++index, list.get(i).getKQMC(),cellstyle);
+			ee.createCell(wb, row, ++index, list.get(i).getKM_1(),cellstyle);
+			ee.createCell(wb, row, ++index, list.get(i).getKM_2(),cellstyle);
+			ee.createCell(wb, row, ++index, list.get(i).getKM_3(),cellstyle);
+			ee.createCell(wb, row, ++index, list.get(i).getKM_4(),cellstyle);
+			ee.createCell(wb, row, ++index, list.get(i).getKM_5(),cellstyle);
+			ee.createCell(wb, row, ++index, ""+list.get(i).getFYKM_1(),cellstyle);
+			ee.createCell(wb, row, ++index, ""+list.get(i).getFYKM_2(),cellstyle);
+			ee.createCell(wb, row, ++index, ""+list.get(i).getFYKM_3(),cellstyle);
+			ee.createCell(wb, row, ++index, ""+list.get(i).getFYKM_4(),cellstyle);
+			ee.createCell(wb, row, ++index, ""+list.get(i).getFYKM_5(),cellstyle);
+			ee.createCell(wb, row, ++index, ""+list.get(i).getBMFY(),cellstyle);
+			ee.createCell(wb, row, ++index, ""+list.get(i).getJE(),cellstyle);
+			ee.createCell(wb, row, ++index, (list.get(i).getDH())==null?"":(""+list.get(i).getDH()),cellstyle);
+			ee.createCell(wb, row, ++index, (list.get(i).getYX())==null?"":(""+list.get(i).getYX()),cellstyle);
+			ee.createCell(wb, row, ++index, (list.get(i).getYHKH())==null?"":(""+list.get(i).getYHKH()),cellstyle);
+			ee.createCell(wb, row, ++index, (list.get(i).getKHH())==null?"":(""+list.get(i).getKHH()),cellstyle);
+			ee.createCell(wb, row, ++index, (list.get(i).getSCXGSJ())==null?"":(""+list.get(i).getSCXGSJ()),cellstyle);
+			
+		}
+		return wb;
+	}
+	
+	public HSSFWorkbook BuildSpecial(String headString,List<USER>list,String signContent) throws Exception{
+		
+		ee.createSpecialHead(headString,(short)9);
+		
+		String[] params = new String[]{"考生姓名","身份证号","工作单位","报考级别","考试类别","考试科目","金额（元）"};
+		
+		ee.createRowColumHeader(params);
+		
+		HSSFCellStyle cellstyle = wb.createCellStyle();
+		
+		HSSFRow row = wb.getSheetAt(0).getRow(6);
+		HSSFRow row1 = wb.getSheetAt(0).getRow(7);
+		
+		ee.specialCell(list.get(0).getKSXM(),1);
+		ee.specialCell(list.get(0).getZJHM(),2);
+		ee.specialCell(list.get(0).getGZDW(),3);
+		ee.specialCell(""+list.get(0).getKSJB(),4);
+		ee.specialCell(list.get(0).getKSLB(),5);
+		
+		int count = 1; 
+		int JEcount = 1;
+		
+		for(int i=0;i<5;i++){
+			Method m1 = USER.class.getMethod("getKM_"+(i+1));
+			String ksName = (String) m1.invoke(list.get(0)); 
+			if(!ksName.equals("")){
+				ee.createCell(wb, row, count, ksName, cellstyle);
+				count++;
+			}
+		}
+		
+		for(int i=0;i<5;i++){
+			Method m1 = USER.class.getMethod("getFYKM_"+(i+1));
+			int FY = (Integer) m1.invoke(list.get(0)); 
+			if(FY!=0){
+				ee.createCell(wb, row1, JEcount, ""+FY, cellstyle);
+				JEcount++;
+			}
+		}
+		
+		ee.createSignName(signContent);
+		
+		return wb;
+	}
+}

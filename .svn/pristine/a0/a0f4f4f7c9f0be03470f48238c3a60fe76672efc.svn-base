@@ -1,0 +1,26 @@
+function showInfo(){
+	
+	$("#msg1").text($("input[name=YHKH]").val());
+	$("#msg2").text($("input[name=KHH]").val());
+	
+	$("#dialog").dialog({
+		autoOpen : true, 
+		modal : true, 
+		resizable : false,
+		width : 400, 
+		height : 210, 
+		show: {
+	        effect: "blind",
+	        duration: 2000
+	      },
+		title : "请确认银行卡号与开户银行信息", 
+		buttons : {
+			'确定并提交' : function() {
+				$("#bankInfo").submit();
+			},
+			'取消' : function(){
+				$("#dialog").dialog("close");
+			}
+		}
+	});
+}
