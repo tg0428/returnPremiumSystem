@@ -85,7 +85,7 @@ function qiveupAll_confirm()
 			}
     	});
     	
-    	location.href="return.jsp?KSXM="+KSXM+"&GZDW="+GZDW+"&ZJHM="+ZJHM+"&KSLB="+KSLB+"&KSJB="+KSJB;
+    	location.href="<%=basePath%>return.jsp?KSXM="+KSXM+"&GZDW="+GZDW+"&ZJHM="+ZJHM+"&KSLB="+KSLB+"&KSJB="+KSJB;
     	
     }
 }

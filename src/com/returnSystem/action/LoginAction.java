@@ -183,7 +183,7 @@ public class LoginAction extends ActionSupport {
 			if(list.get(0).getRole().equals("admin")){
 				tojsp = "/jsp/manager.jsp";
 			}else{
-				this.getExamInfoList(psw.trim(), name.trim());
+				this.getExamInfoList(psw.trim());
 				Job = user.getGZDW();
 				tojsp = "/jsp/personalInformation.jsp";
 			}
@@ -204,9 +204,10 @@ public class LoginAction extends ActionSupport {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void getExamInfoList(String psw,String name) throws IOException{
+	public void getExamInfoList(String psw) throws IOException{
 		
-		List<USER> ulist = (List<USER>) udao.findByZJHM(psw.trim(), name.trim());
+		//List<USER> ulist = (List<USER>) udao.findByZJHM(psw.trim(), name.trim());
+		List<USER> ulist = (List<USER>) udao.findUser(psw.trim());
 		ActionContext ac = ActionContext.getContext();
 		user = ulist.get(0);
 		ac.getSession().put("user",user);
@@ -329,7 +330,9 @@ public class LoginAction extends ActionSupport {
 		
 		String sql = ("update user set DH = '"+phone.trim()+"', YX = '" +email.trim()+"' where ZJHM ='"+ psw.trim()+"'");
 		udao.update(sql);
-		tojsp="/login.jsp";
+		this.getExamInfoList(psw.trim());
+		//tojsp="/login.jsp";
+		tojsp = "/jsp/personalInformation.jsp";
 		return SUCCESS;
 	}
 	
@@ -337,7 +340,7 @@ public class LoginAction extends ActionSupport {
 		
 		String username = URLDecoder.decode(request.getParameter("username"));
 		String password = URLDecoder.decode(request.getParameter("password"));
-		this.getExamInfoList(password.trim(), username.trim());
+		this.getExamInfoList(password.trim());
 		System.out.println(username+password);
 		List<USER> ulist = (List<USER>) udao.findByZJHM(password.trim(), username.trim());
 		user = ulist.get(0);
