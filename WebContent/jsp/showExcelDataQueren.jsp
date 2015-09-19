@@ -25,7 +25,9 @@ userDao udao = new userImpl();
 List<USER> list = (List<USER>) udao.findUser(ZJHM);
 String[] params = new String[]{"考生姓名","身份证号","工作单位","报考类别","考试级别","考试专业"};
 String[] value = new String[]{list.get(0).getKSXM(),list.get(0).getZJHM(),list.get(0).getGZDW(),
-		list.get(0).getKSLB(),list.get(0).getBKJBMC(),list.get(0).getBKZYMC()};
+		list.get(0).getKSLB()==null?"":list.get(0).getKSLB(),
+				list.get(0).getBKJBMC()==null?"":list.get(0).getBKJBMC(),
+						list.get(0).getBKZYMC()==null?"":list.get(0).getBKZYMC()};
 
 %> 
 <button onclick="dayin()" class="noprint">打印</button>
