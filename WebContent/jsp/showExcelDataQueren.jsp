@@ -49,7 +49,7 @@ String[] value = new String[]{list.get(0).getKSXM(),list.get(0).getZJHM(),list.g
 		<%
 		for(int i=0;i<5;i++){
 			Method m1 = USER.class.getMethod("getKM_"+(i+1));
-			String ksName = (String) m1.invoke(list.get(0)); 
+			String ksName = (String) m1.invoke(list.get(0))==null?"":(String) m1.invoke(list.get(0)); 
 			if(!ksName.equals("")){
 				%>
 				<td   align="center"><%=ksName %></td>
